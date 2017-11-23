@@ -31,4 +31,6 @@ project "testfixint"
         "../**.cpp",
         "../libfixmath/**.h",
         "../libfixmath/**.c",
+        "../libfixmath/**.hpp",
+        "../libfixmath/**.cpp",
     }

@@ -3,24 +3,20 @@
 #include <cmath>
 
 
-float test_float(float val)
+float test_sin(float val)
 {
-    float v1 = val * 2;
-    float v2 = v1 / 3;
-    float v3 = sin(v2);
-    float v4 = sqrtf(v3);
-    return v4;
+    return sin(val);
 }
 
 
-size_t TEST_COUNT = 100;
+size_t TEST_COUNT = 20;
 
 int main(int argc, char *argv[])
 {
     float valf = 0.25;
     for (size_t i = 0; i < TEST_COUNT; i++)
     {
-        valf = test_float(valf);
+        valf = test_sin(valf);
+        printf("%2d: %X\n", i, *(int32_t*)&valf);
     }
-    std::cout << "valf = " << valf << std::endl;
 }

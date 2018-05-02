@@ -3,7 +3,7 @@
 #include <cmath>
 
 
-float test_sin(float val)
+double test_sin(double val)
 {
     return sin(val);
 }
@@ -11,10 +11,10 @@ float test_sin(float val)
 
 int TEST_COUNT = 20;
 
-void myprintf(int i, float valf);
+void myprintf(int i, double valf);
 int main(int argc, char *argv[])
 {
-    float valf = 0.25f;
+    double valf = 0.25;
     myprintf(-1, valf);
     for (int i = 0; i < TEST_COUNT; i++)
     {
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     }
 }
 
-void myprintf(int i, float valf) 
+void myprintf(int i, double valf)
 {
-    printf("%2d: %X\n", i, *(int32_t*)&valf);
+    printf("%2d: %X\n", i, *(unsigned int*)&valf);
 }

@@ -25,5 +25,5 @@ int main(int argc, char *argv[])
 
 void myprintf(int i, double valf)
 {
-    printf("%2d: %X\n", i, *(unsigned int*)&valf);
+    printf("%2d: %X %lf\n", i, *(unsigned int*)&valf, valf);
 }

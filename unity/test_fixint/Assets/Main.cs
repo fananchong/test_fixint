@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class Main : MonoBehaviour {
 
 
-    public float test_sin(float val)
+    public double test_sin(double val)
     {
-        return Mathf.Sin(val);
+        return Math.Sin(val);
     }
 
     int TEST_COUNT = 20;
 
-    void myprintf(int i, float valf)
+    void myprintf(int i, double valf)
     {
         byte[] buf = BitConverter.GetBytes(valf);
         string hexStr = HexToString(buf);
@@ -38,7 +38,7 @@ public class Main : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        float valf = 0.25f;
+        double valf = 0.25f;
         myprintf(-1, valf);
         for (int i = 0; i < TEST_COUNT; i++)
         {

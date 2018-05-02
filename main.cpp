@@ -17,5 +17,5 @@ int main(int argc, char *argv[])
 
 void myprintf(int i, double valf)
 {
-    printf("%2d: %I64X %lf\n", i, *(uint64_t*)&valf, valf);
+    printf("%2d: %I64X %lf\n", i, *(int64_t*)&valf, valf);
 }

@@ -5,13 +5,13 @@ int TEST_COUNT = 20;
 
 int main(int argc, char *argv[])
 {
-    printf("直接使用double类型，做sin运算：\n");
+    printf("鐩存帴浣跨敤double绫诲瀷锛屽仛sin杩愮畻锛歕n");
     void test_normal(int count);
     test_normal(TEST_COUNT);
 
     printf("\n\n");
 
-    printf("使用libfixmath的fix16类型，做sin运算：\n");
+    printf("浣跨敤libfixmath鐨刦ix16绫诲瀷锛屽仛sin杩愮畻锛歕n");
     void test_by_fix16(int count);
     test_by_fix16(TEST_COUNT);
 

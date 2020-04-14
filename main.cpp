@@ -27,22 +27,24 @@ void test2()
     float num1 = 1999.5f;
     float num2 = 1.1f;
     printf("num1:%f, num2:%f\n", num1, num2);
+    printf("float type size:%d\n", sizeof(float));
+    printf("int type size:%d\n", sizeof(int));
 
     float a1 = [](float n1, float n2) -> float { return n1 + n2; }(num1, num2);
     float a2 = [](float n1, float n2) -> float { return float(Fix16(n1) + Fix16(n2)); }(num1, num2);
-    printf("add, a1=%llX(%f), a2=%llX(%f)\n", *(long long int *)&a1, a1, *(long long int *)&a2, a2);
+    printf("add, a1=%IX(%f), a2=%IX(%f)\n", *(int *)&a1, a1, *(int *)&a2, a2);
 
     a1 = [](float n1, float n2) -> float { return n1 - n2; }(num1, num2);
     a2 = [](float n1, float n2) -> float { return float(Fix16(n1) - Fix16(n2)); }(num1, num2);
-    printf("sub, a1=%llX(%f), a2=%llX(%f)\n", *(long long int *)&a1, a1, *(long long int *)&a2, a2);
+    printf("sub, a1=%IX(%f), a2=%IX(%f)\n", *(int *)&a1, a1, *(int *)&a2, a2);
 
     a1 = [](float n1, float n2) -> float { return n1 * n2; }(num1, num2);
     a2 = [](float n1, float n2) -> float { return float(Fix16(n1) * Fix16(n2)); }(num1, num2);
-    printf("div, a1=%llX(%f), a2=%llX(%f)\n", *(long long int *)&a1, a1, *(long long int *)&a2, a2);
+    printf("mul, a1=%IX(%f), a2=%IX(%f)\n", *(int *)&a1, a1, *(int *)&a2, a2);
 
     a1 = [](float n1, float n2) -> float { return n1 / n2; }(num1, num2);
     a2 = [](float n1, float n2) -> float { return float(Fix16(n1) / Fix16(n2)); }(num1, num2);
-    printf("mul, a1=%llX(%f), a2=%llX(%f)\n", *(long long int *)&a1, a1, *(long long int *)&a2, a2);
+    printf("div, a1=%IX(%f), a2=%IX(%f)\n", *(int *)&a1, a1, *(int *)&a2, a2);
 }
 
 void benchmark(uint64_t count)
@@ -124,6 +126,6 @@ void myprintf(int i, double valf)
 {
     if (myprintf_on)
     {
-        printf("%2d: %llX %f\n", i, *(long long int *)&valf, valf);
+        printf("%2d: %IX %f\n", i, *(int *)&valf, valf);
     }
 }

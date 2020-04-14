@@ -22,37 +22,27 @@ void test()
     test_by_fix16(count);
 }
 
-float num1 = 1999.5f;
-float num2 = 1.1f;
-
-void test2(uint64_t count)
+void test2()
 {
-    float test_normal_int_add(uint64_t count, float n);
-    float test_normal_int_sub(uint64_t count, float n);
-    float test_normal_int_mul(uint64_t count, float n);
-    float test_normal_int_div(uint64_t count, float n);
-    float test_fix16_int_add(uint64_t count, float n);
-    float test_fix16_int_sub(uint64_t count, float n);
-    float test_fix16_int_mul(uint64_t count, float n);
-    float test_fix16_int_div(uint64_t count, float n);
-
+    float num1 = 1999.5f;
+    float num2 = 1.1f;
     printf("num1:%f, num2:%f\n", num1, num2);
 
-    auto a1 = test_normal_int_add(count, num1);
-    auto a2 = test_fix16_int_add(count, num1);
-    printf("add, a1=%f, a2=%f\n", a1, a2);
+    auto a1 = [](float n1, float n2) -> float { return n1 + n2; }(num1, num2);
+    auto a2 = [](float n1, float n2) -> float { return float(Fix16(n1) + Fix16(n2)); }(num1, num2);
+    printf("add, a1=%llX(%lf), a2=%llX(%lf)\n", *(long long int *)&a1, a1, *(long long int *)&a2, a2);
 
-    a1 = test_normal_int_sub(count, num1);
-    a2 = test_fix16_int_sub(count, num1);
-    printf("sub, a1=%f, a2=%f\n", a1, a2);
+    a1 = [](float n1, float n2) -> float { return n1 - n2; }(num1, num2);
+    a2 = [](float n1, float n2) -> float { return float(Fix16(n1) - Fix16(n2)); }(num1, num2);
+    printf("sub, a1=%llX(%lf), a2=%llX(%lf)\n", *(long long int *)&a1, a1, *(long long int *)&a2, a2);
 
-    a1 = test_normal_int_div(count, num1);
-    a2 = test_fix16_int_div(count, num1);
-    printf("div, a1=%f, a2=%f\n", a1, a2);
+    a1 = [](float n1, float n2) -> float { return n1 * n2; }(num1, num2);
+    a2 = [](float n1, float n2) -> float { return float(Fix16(n1) * Fix16(n2)); }(num1, num2);
+    printf("div, a1=%llX(%lf), a2=%llX(%lf)\n", *(long long int *)&a1, a1, *(long long int *)&a2, a2);
 
-    a1 = test_normal_int_mul(count, num1);
-    a2 = test_fix16_int_mul(count, num1);
-    printf("mul, a1=%f, a2=%f\n", a1, a2);
+    a1 = [](float n1, float n2) -> float { return n1 / n2; }(num1, num2);
+    a2 = [](float n1, float n2) -> float { return float(Fix16(n1) / Fix16(n2)); }(num1, num2);
+    printf("mul, a1=%llX(%lf), a2=%llX(%lf)\n", *(long long int *)&a1, a1, *(long long int *)&a2, a2);
 }
 
 void benchmark(uint64_t count)
@@ -115,7 +105,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            test2(c);
+            test2();
         }
     }
 }

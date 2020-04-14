@@ -19,16 +19,40 @@ void test_normal(uint64_t count)
     }
 }
 
-int test_int(int n)
-{
-    return (n + n) / 1.5f;
-}
+extern float item;
 
-int test_normal_int(uint64_t count, int n)
+float test_normal_int_add(uint64_t count, float n)
 {
     for (uint64_t i = 0; i < count; i++)
     {
-        n = test_int(n);
+        n += item;
+    }
+    return n;
+}
+
+float test_normal_int_sub(uint64_t count, float n)
+{
+    for (uint64_t i = 0; i < count; i++)
+    {
+        n -= item;
+    }
+    return n;
+}
+
+float test_normal_int_mul(uint64_t count, float n)
+{
+    for (uint64_t i = 0; i < count; i++)
+    {
+        n *= item;
+    }
+    return n;
+}
+
+float test_normal_int_div(uint64_t count, float n)
+{
+    for (uint64_t i = 0; i < count; i++)
+    {
+        n /= item;
     }
     return n;
 }

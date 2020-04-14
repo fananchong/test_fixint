@@ -21,17 +21,45 @@ void test_by_fix16(uint64_t count)
     }
 }
 
-Fix16 test_int_by_fix16(Fix16 n)
-{
-    return (n + n) / Fix16(1.5f);
-}
+extern float item;
+Fix16 item_ = item;
 
-int test_fix16_int(uint64_t count, int n_)
+float test_fix16_int_add(uint64_t count, float n)
 {
-    Fix16 n = Fix16(n_);
+    Fix16 n_ = n;
     for (uint64_t i = 0; i < count; i++)
     {
-        n = test_int_by_fix16(Fix16(n));
+        n_ += item_;
     }
-    return n;
+    return n_;
+}
+
+float test_fix16_int_sub(uint64_t count, float n)
+{
+    Fix16 n_ = n;
+    for (uint64_t i = 0; i < count; i++)
+    {
+        n_ -= item_;
+    }
+    return n_;
+}
+
+float test_fix16_int_mul(uint64_t count, float n)
+{
+    Fix16 n_ = n;
+    for (uint64_t i = 0; i < count; i++)
+    {
+        n_ *= item_;
+    }
+    return n_;
+}
+
+float test_fix16_int_div(uint64_t count, float n)
+{
+    Fix16 n_ = n;
+    for (uint64_t i = 0; i < count; i++)
+    {
+        n_ /= item_;
+    }
+    return n_;
 }

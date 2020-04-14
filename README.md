@@ -2,6 +2,7 @@
 
 - Q16.16 乘除精度太低了，计算出来的值，小数点第2位就错啦
 ```vim
+[fananchong@host-192-168-23-57 Release]$ ./testfixint  2 1
 num1:1999.500000, num2:1.100000
 float type size:4
 int type size:4

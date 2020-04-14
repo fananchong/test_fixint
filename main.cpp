@@ -1,72 +1,64 @@
 #include <iostream>
 #include <cmath>
 #include <sys/time.h> // linux only , TODO 只支持 linux
+#include <fix16.hpp>
+#include <fix16.h>
 
 bool myprintf_on = true;
 long long mstime(void);
-void test_normal(uint64_t count);
-void test_by_fix16(uint64_t count);
-float test_normal_int_add(uint64_t count, float n);
-float test_normal_int_sub(uint64_t count, float n);
-float test_normal_int_mul(uint64_t count, float n);
-float test_normal_int_div(uint64_t count, float n);
-float test_fix16_int_add(uint64_t count, float n);
-float test_fix16_int_sub(uint64_t count, float n);
-float test_fix16_int_mul(uint64_t count, float n);
-float test_fix16_int_div(uint64_t count, float n);
+
 void test()
 {
-    uint64_t TEST_COUNT = 20;
+    void test_normal(uint64_t count);
+    void test_by_fix16(uint64_t count);
+
+    uint64_t count = 20;
     printf("直接使用double类型，做sin运算：\n");
-    test_normal(TEST_COUNT);
+    test_normal(count);
 
     printf("\n\n");
 
     printf("使用libfixmath的fix16类型，做sin运算：\n");
-    test_by_fix16(TEST_COUNT);
+    test_by_fix16(count);
 }
 
-float item = 1.1f;
+float num1 = 1999.5f;
+float num2 = 1.1f;
 
-void test2(uint64_t TEST_COUNT)
+void test2(uint64_t count)
 {
-    float item1 = 1999.5f;
+    float test_normal_int_add(uint64_t count, float n);
+    float test_normal_int_sub(uint64_t count, float n);
+    float test_normal_int_mul(uint64_t count, float n);
+    float test_normal_int_div(uint64_t count, float n);
+    float test_fix16_int_add(uint64_t count, float n);
+    float test_fix16_int_sub(uint64_t count, float n);
+    float test_fix16_int_mul(uint64_t count, float n);
+    float test_fix16_int_div(uint64_t count, float n);
 
-    printf("num1:%f, num2:%f\n", item1, item);
+    printf("num1:%f, num2:%f\n", num1, num2);
 
-    auto a1 = test_normal_int_add(TEST_COUNT, item1);
-    auto a2 = test_fix16_int_add(TEST_COUNT, item1);
+    auto a1 = test_normal_int_add(count, num1);
+    auto a2 = test_fix16_int_add(count, num1);
     printf("add, a1=%f, a2=%f\n", a1, a2);
 
-    a1 = test_normal_int_sub(TEST_COUNT, item1);
-    a2 = test_fix16_int_sub(TEST_COUNT, item1);
+    a1 = test_normal_int_sub(count, num1);
+    a2 = test_fix16_int_sub(count, num1);
     printf("sub, a1=%f, a2=%f\n", a1, a2);
 
-    a1 = test_normal_int_div(TEST_COUNT, item1);
-    a2 = test_fix16_int_div(TEST_COUNT, item1);
+    a1 = test_normal_int_div(count, num1);
+    a2 = test_fix16_int_div(count, num1);
     printf("div, a1=%f, a2=%f\n", a1, a2);
 
-    a1 = test_normal_int_mul(TEST_COUNT, item1);
-    a2 = test_fix16_int_mul(TEST_COUNT, item1);
+    a1 = test_normal_int_mul(count, num1);
+    a2 = test_fix16_int_mul(count, num1);
     printf("mul, a1=%f, a2=%f\n", a1, a2);
 }
 
-void benchmark(uint64_t TEST_COUNT)
+void benchmark(uint64_t count)
 {
-    myprintf_on = false;
-
-    auto t1 = mstime();
-    test_normal(TEST_COUNT);
-    auto t2 = mstime();
-    printf("normal sin\tcount: %llu\t\tcost:%d ms\t%d ns/op\n", TEST_COUNT, t2 - t1, (t2 - t1) * 1000 * 1000 / TEST_COUNT);
-
-    t1 = mstime();
-    test_by_fix16(TEST_COUNT);
-    t2 = mstime();
-    printf("fix16 sin\tcount: %llu\t\tcost:%d ms\t%d ns/op\n", TEST_COUNT, t2 - t1, (t2 - t1) * 1000 * 1000 / TEST_COUNT);
-
-    typedef float f1(uint64_t count, float n);
-    typedef float f2(uint64_t count, float n);
+    typedef float f1(float n1, float n2);
+    typedef float f2(float n1, float n2);
     struct _temp
     {
         const char *name;
@@ -75,23 +67,35 @@ void benchmark(uint64_t TEST_COUNT)
     };
 
     _temp temp[] = {
-        {"add", test_normal_int_add, test_fix16_int_add},
-        {"sub", test_normal_int_sub, test_fix16_int_sub},
-        {"mul", test_normal_int_mul, test_fix16_int_mul},
-        {"div", test_normal_int_div, test_fix16_int_div},
+        {"add", [](float n1, float n2) -> float { return n1 + n2; }, [](float n1, float n2) -> float { return Fix16(n1) + Fix16(n2); }},
+        {"sub", [](float n1, float n2) -> float { return n1 - n2; }, [](float n1, float n2) -> float { return Fix16(n1) - Fix16(n2); }},
+        {"mul", [](float n1, float n2) -> float { return n1 * n2; }, [](float n1, float n2) -> float { return Fix16(n1) * Fix16(n2); }},
+        {"div", [](float n1, float n2) -> float { return n1 / n2; }, [](float n1, float n2) -> float { return Fix16(n1) / Fix16(n2); }},
+        {"sin", [](float n1, float _) -> float { return sin(n1); }, [](float n1, float _) -> float { return Fix16(n1).sin(); }},
     };
+
+    // 避免溢出导致基准测试不准确
+    float testvalue[] = {1999.5f, 1.1f, 1.995f, 1100.3f, 2000.95f, 109.98f};
 
     for (size_t i = 0; i < sizeof(temp) / sizeof(temp[0]); i++)
     {
-        t1 = mstime();
-        temp[i].f1_(TEST_COUNT, 1999.5f);
-        t2 = mstime();
-        printf("normal %s\tcount: %llu\t\tcost:%d ms\t%d ns/op\n", temp[i].name, TEST_COUNT, t2 - t1, (t2 - t1) * 1000 * 1000 / TEST_COUNT);
+        auto t1 = mstime();
+        for (size_t j = 0; j < count; j++)
+        {
+            auto index = j % 3;
+            temp[i].f1_(testvalue[2 * index], testvalue[2 * index + 1]);
+        }
+        auto t2 = mstime();
+        printf("normal %s\tcount: %llu\t\tcost:%d ms\t%d ns/op\n", temp[i].name, count, t2 - t1, (t2 - t1) * 1000 * 1000 / count);
 
         t1 = mstime();
-        temp[i].f2_(TEST_COUNT, 1999.5f);
+        for (size_t j = 0; j < count; j++)
+        {
+            auto index = j % 3;
+            temp[i].f2_(testvalue[2 * index], testvalue[2 * index + 1]);
+        }
         t2 = mstime();
-        printf("fix16 %s\tcount: %llu\t\tcost:%d ms\t%d ns/op\n", temp[i].name, TEST_COUNT, t2 - t1, (t2 - t1) * 1000 * 1000 / TEST_COUNT);
+        printf("fix16 %s\tcount: %llu\t\tcost:%d ms\t%d ns/op\n", temp[i].name, count, t2 - t1, (t2 - t1) * 1000 * 1000 / count);
     }
 }
 

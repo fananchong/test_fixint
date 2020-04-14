@@ -21,8 +21,8 @@ void test_by_fix16(uint64_t count)
     }
 }
 
-extern float item;
-Fix16 item_ = item;
+extern float num2;
+Fix16 item_ = num2;
 
 float test_fix16_int_add(uint64_t count, float n)
 {

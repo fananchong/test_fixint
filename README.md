@@ -142,7 +142,8 @@ fix16 sin       count: 1000000          cost:10 ms      10 ns/op
 
 ## truesync
 
-truesync Q31.32 精度很高； libfixmath 乘法运算算法比较差且四色五入算法也明显不对
+truesync Q31.32 使用 32 位来保存小数部分，浮点数整型化时不会发生截断，从而保证了精度不会丢失；
+libfixmath Q16.16 浮点数整型化时必然会出现截断现象，它使用四舍五入算法，但是没法保证精度不会丢失
 
 ```vim
 num1:1999.5, num2:1.1

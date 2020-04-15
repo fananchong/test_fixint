@@ -8,7 +8,24 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             test(1999.5f, 1.1f);
+            test(1999.5f, 1.2f);
+            test(1999.5f, 1.3f);
+            test(1999.5f, 1.4f);
+            test(1999.5f, 1.5f);
+            test(1999.5f, 1.6f);
+            test(1999.5f, 1.7f);
+            test(1999.5f, 1.8f);
+            test(1999.5f, 1.9f);
             test(1000.0f, 33.0f);
+            test(1999.9f, 1.1f);
+            test(1999.9f, 1.2f);
+            test(1999.9f, 1.3f);
+            test(1999.9f, 1.4f);
+            test(1999.9f, 1.5f);
+            test(1999.9f, 1.6f);
+            test(1999.9f, 1.7f);
+            test(1999.9f, 1.8f);
+            test(1999.9f, 1.9f);
         }
 
         static private void test(float num1, float num2)

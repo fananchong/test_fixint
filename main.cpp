@@ -22,13 +22,11 @@ void test()
     test_by_fix16(count);
 }
 
-void test2()
+void test2(float num1, float num2)
 {
-    float num1 = 1999.5f;
-    float num2 = 1.1f;
     printf("num1:%f, num2:%f\n", num1, num2);
-    printf("float type size:%d\n", sizeof(float));
-    printf("int type size:%d\n", sizeof(int));
+    //printf("float type size:%d\n", sizeof(float));
+    //printf("int type size:%d\n", sizeof(int));
 
     float a1 = [](float n1, float n2) -> float { return n1 + n2; }(num1, num2);
     float a2 = [](float n1, float n2) -> float { return float(Fix16(n1) + Fix16(n2)); }(num1, num2);
@@ -100,14 +98,16 @@ int main(int argc, char *argv[])
     else
     {
         auto s = atoi(argv[1]);
-        auto c = atoi(argv[2]);
         if (s == 1)
         {
+            auto c = atoi(argv[2]);
             benchmark(c);
         }
         else
         {
-            test2();
+            auto num1 = (float)atof(argv[2]);
+            auto num2 = (float)atof(argv[3]);
+            test2(num1, num2);
         }
     }
 }
